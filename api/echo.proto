@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package api;
+option go_package = "example.ezboot/myna/api";
+
+import "google/api/annotations.proto";
+import "buf/validate/validate.proto";
+import "rbac/rbac.proto";
+
+
+service EchoService {
+    option (ezboot.rbac.hierarchy) = {
+        role: [
+            {
+                name: 'Role:ResourceFullAccess',
+                desc: 'Full access for Resource'
+                extends: [
+                    {
+                        name: 'Role:ResourceWriteOnly',
+                        desc: 'Write-Only access for Resource'
+                        extends: [
+                            {
+                                name: 'Role:Viewer'
+                                desc: 'Read-Only access for Resource'
+                            }
+                        ],
+                    },
+                    {
+                        name: 'Role:ResourceDangerOnly'
+                        desc: 'Danger-Operation access for Resource'
+                    }
+                ]
+            }
+        ]
+    };
+
+    rpc Say(SayRequest) returns (SayResponse) {
+        option (ezboot.rbac.role) = {
+            name: 'Role:Viewer'
+        };
+        option (google.api.http) = {
+            get: '/api/echo/say'
+        };
+    }
+}
+
+message SayRequest {
+    string text = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message SayResponse {
+    string text = 1;
+}

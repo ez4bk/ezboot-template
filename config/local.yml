@@ -1,0 +1,19 @@
+app:
+  name: myna
+  ver: 1.0.0
+
+  host: 0.0.0.0
+  port: 8899
+
+  middleware:
+    grpc:
+      server:
+        default:
+          addr: ":11211"
+          _startup: true
+          max_recv_msg_size: 10485760
+      client:
+        default:
+          addr: "127.0.0.1:11211"
+          timeout_per_request: "5s"
+          with_insecure: true
