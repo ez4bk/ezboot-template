@@ -13,6 +13,7 @@ FROM alpine
 
 WORKDIR /workspace
 COPY config /workspace/config
+COPY schemas /workspace/schemas
 COPY --from=builder /workspace/app /workspace/app
 
 EXPOSE 8899/tcp
