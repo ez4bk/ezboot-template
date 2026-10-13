@@ -1,0 +1,12 @@
+go 1.27
+
+use (
+	.
+// ezboot:with-db:begin
+	dbgen
+// ezboot:with-db:end
+)
+
+// ezboot:with-db:begin
+replace example.ezboot/myna/dbgen v0.0.0 => ./dbgen
+// ezboot:with-db:end

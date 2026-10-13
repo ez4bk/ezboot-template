@@ -6,6 +6,10 @@ override BUILD_TIME := $(shell date '+%y%m%d')
 override GIT_REVISION := $(shell git rev-parse --short HEAD)
 override KUBE_CONTEXT := $(shell kubectl config current-context)
 
+# ezboot:with-db:begin
+override DEV_MYSQL_DSN := mysql://user:password@tcp(127.0.0.1:3306)/myna
+# ezboot:with-db:end
+
 ifdef DOCKER_HOST
 override APP_GOPATH := /home/.remote/go
 override BUF_CACHE := /home/.remote/buf
@@ -62,6 +66,12 @@ api: ## Generate api
 	@docker rm $(VOLUME_NAME)
 	@docker volume rm $(VOLUME_NAME)
 
+# ezboot:with-db:begin
+.PHONY: dbgen
+dbgen: ## Generate the models and dao files
+	go run example.ezboot/myna/dbgen -dsn="$(DEV_MYSQL_DSN)"
+# ezboot:with-db:end
+
 .PHONY: wire
 wire:
 	@docker pull $(RT_GOOGLE_WIRE_IMAGE)
@@ -87,7 +97,7 @@ push:
 deploy: app push
 	@echo "Deploy by helm using context \033[0;31m$(KUBE_CONTEXT)\033[0m, waiting 5s to confirm"
 	@sleep 5
-	helm upgrade $(APP_NAME) deployments/myna \
+	helm upgrade $(APP_NAME) charts/myna \
 		-n $(KUBE_NAMESPACE) \
 		--set 'image.repository=$(APP_IMAGE_NAME)' \
 		--set 'image.tag=$(APP_IMAGE_TAG)' \

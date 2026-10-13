@@ -13,7 +13,9 @@ FROM alpine
 
 WORKDIR /workspace
 COPY config /workspace/config
+# ezboot:with-db:begin
 COPY schemas /workspace/schemas
+# ezboot:with-db:end
 COPY --from=builder /workspace/app /workspace/app
 
 EXPOSE 8899/tcp

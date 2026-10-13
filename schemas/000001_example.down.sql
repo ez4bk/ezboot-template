@@ -1,1 +1,1 @@
-DROP TABLE `myna_example`;
+DROP TABLE `example`;
