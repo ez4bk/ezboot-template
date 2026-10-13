@@ -7,13 +7,13 @@
 package api
 
 import (
-	v2 "github.com/casbin/casbin/v2"
-	model "github.com/casbin/casbin/v2/model"
-	rbac "github.com/casbin/casbin/v2/rbac"
+	v3 "github.com/casbin/casbin/v3"
+	model "github.com/casbin/casbin/v3/model"
+	rbac "github.com/casbin/casbin/v3/rbac"
 	rbac1 "github.com/ez4bk/ezboot/rbac"
 )
 
-var _ v2.Enforcer
+var _ v3.Enforcer
 var _ rbac.RoleManager
 var _ *model.Model
 var _ *rbac1.Def
