@@ -23,6 +23,7 @@ var Example = &reflect.TablePolicy{
 			"type": {OptionalSkip: uint8(0)},
 		},
 	},
+	PagerPolicy: &reflect.PagerPolicy{Type: reflect.PagerTypeToken},
 	CachePolicy: &reflect.CachePolicy{
 		Prefix:  "myna:db:example:",
 		Expired: time.Hour * 24 * 7,

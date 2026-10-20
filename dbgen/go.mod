@@ -3,8 +3,8 @@ module example.ezboot/myna/dbgen
 go 1.27
 
 require (
-	github.com/ez4bk/ezboot v0.3.0
-	github.com/ez4bk/ezboot/tools/reflect v0.3.0
+	github.com/ez4bk/ezboot v0.4.0
+	github.com/ez4bk/ezboot/tools/reflect v0.4.0
 	github.com/go-sql-driver/mysql v1.10.1
 )
 

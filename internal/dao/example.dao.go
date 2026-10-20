@@ -87,25 +87,35 @@ func (dao *ExampleDAO) Exists(ctx context.Context, id snowflake.ID) (exists bool
 
 // ListExampleParams represents the params to list models
 type ListExampleParams struct {
-	exorm.Pager
+	exorm.TokenPager
 
 	Name string // optional, likely
 	Type uint8  // optional
 }
 
 // List returns the specified models from database by params
-func (dao *ExampleDAO) List(ctx context.Context, params *ListExampleParams) (list []*models.Example, total int64, err error) {
+// nextPageToken is empty when there is no more data
+func (dao *ExampleDAO) List(ctx context.Context, params *ListExampleParams) (list []*models.Example, nextPageToken string, err error) {
 	err = with.DefaultSession(ctx, func(db *xorm.Session) error {
-		total, err = exorm.New(db).
+		query, err := exorm.New(db).
 			Cond(params.Name != "", "name like ?", "%"+params.Name+"%").
 			Cond(params.Type != uint8(0x0), "type = ?", params.Type).
-			Limit(params).
-			Raw().
+			DefaultTokenLimit(params, "id")
+
+		if err != nil {
+			return err
+		}
+
+		err = query.Raw().
 			Where("deleted = ?", false).
 			OrderBy("id desc").
-			FindAndCount(&list)
+			Find(&list)
 		if err != nil {
 			return elog.Warnw(dao.log, err, "failed to list example from database")
+		}
+
+		if len(list) > 0 {
+			nextPageToken = exorm.NextPageToken(exorm.NewDefaultToken("id", list[len(list)-1].Id), len(list), params.GetPageSize())
 		}
 
 		return nil
