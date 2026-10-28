@@ -10,6 +10,11 @@ app:
     auto_migrate: true
 # ezboot:with-db:end
 
+  lifecycle:
+    ready_timeout: 10s
+    drain_timeout: 10s
+    close_timeout: 5s
+
   middleware:
 # ezboot:with-db:begin
     mysql:

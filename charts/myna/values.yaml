@@ -4,6 +4,10 @@
 
 replicaCount: 1
 
+# 优雅退出预算。必须大于 app.lifecycle 的 drain + close 之和，
+# 否则 kubelet 会在排空完成前发 SIGKILL。
+terminationGracePeriodSeconds: 40
+
 image:
   repository: nginx
   pullPolicy: IfNotPresent

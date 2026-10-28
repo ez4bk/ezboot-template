@@ -1,3 +1,7 @@
 name: myna
 world:
   mysterious: 👻
+
+# 自定义插件示例（internal/plugin/example）
+example:
+  interval: 1s

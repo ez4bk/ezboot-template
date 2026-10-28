@@ -9,10 +9,14 @@ package main
 import (
 	"example.ezboot/myna/config"
 	"example.ezboot/myna/internal/cli"
+	"example.ezboot/myna/internal/plugin/example"
 	"example.ezboot/myna/internal/server"
 	"example.ezboot/myna/internal/service"
 	"example.ezboot/myna/internal/world"
 	"github.com/ez4bk/ezboot"
+	"github.com/ez4bk/ezboot/grpc/client"
+	"github.com/ez4bk/ezboot/infra"
+	"github.com/ez4bk/ezboot/tracing"
 )
 
 // Injectors from wire.go:
@@ -24,6 +28,25 @@ func InitApp() (*ezboot.Application, error) {
 		return nil, err
 	}
 	v := ezboot.ProvideConfig()
+	state := ezboot.NewState()
+	otel, err := tracing.NewOTEL(v)
+	if err != nil {
+		return nil, err
+	}
+	sugaredLogger := ezboot.ProvideLogger()
+	mySQL, err := infra.NewMySQL(v, sugaredLogger)
+	if err != nil {
+		return nil, err
+	}
+	grpcClient, err := client.NewGRPCClient(v)
+	if err != nil {
+		return nil, err
+	}
+	exampleConfig, err := example.NewConfig()
+	if err != nil {
+		return nil, err
+	}
+	plugin := example.New(exampleConfig, sugaredLogger)
 	configWorld := &configConfig.World
 	lane := world.NewLane(configWorld)
 	echoService, err := service.NewEchoService(lane)
@@ -34,12 +57,13 @@ func InitApp() (*ezboot.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	httpServer, err := server.NewHttpServer(v, grpcServer)
+	httpServer, err := server.NewHttpServer(v, grpcServer, state)
 	if err != nil {
 		return nil, err
 	}
+	v2 := server.NewPlugins(otel, mySQL, grpcClient, plugin, grpcServer, httpServer)
 	commands := cli.NewCommands()
-	application, err := NewApp(configConfig, grpcServer, httpServer, commands)
+	application, err := NewApp(configConfig, v, state, v2, commands)
 	if err != nil {
 		return nil, err
 	}

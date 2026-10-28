@@ -18,6 +18,7 @@ spec:
       labels:
         {{- include "myna.selectorLabels" . | nindent 8 }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -39,8 +40,11 @@ spec:
               port: http
           readinessProbe:
             httpGet:
-              path: /_healthy
+              path: /readyz
               port: http
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            timeoutSeconds: 3
           env:
             - name: EZ_ENV
               value: {{ .Values.ysEnv }}
