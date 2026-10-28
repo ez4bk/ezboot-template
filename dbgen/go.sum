@@ -7,10 +7,10 @@ github.com/dave/jennifer v1.7.1/go.mod h1:nXbxhEmQfOZhWml3D1cDK5M1FLnMSozpbFN/m3
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkpeCY=
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
-github.com/ez4bk/ezboot v0.4.0 h1:VTsS/2FhYJNETh1t8oOm8Fi9BFNxN7jIcTuZ1xfKJ3c=
-github.com/ez4bk/ezboot v0.4.0/go.mod h1:IFFmmX8gw2s/rXeODY2lgrFEvcSn/Ji+2V6WU+Ol9WE=
-github.com/ez4bk/ezboot/tools/reflect v0.4.0 h1:zZlCma9tqTf4CZt+tPOYEtzDMfdC8qLOhDBw36zKo94=
-github.com/ez4bk/ezboot/tools/reflect v0.4.0/go.mod h1:QTCEL5aWACjepEE+nWd0y4u+d9LGeMEwxmEXTai3J48=
+github.com/ez4bk/ezboot v0.5.0 h1:uHmRMK0aItY8JFU/lP2tT7sKIx94aat+haVq/dg/gN0=
+github.com/ez4bk/ezboot v0.5.0/go.mod h1:s4rLcLrKXXsaS9ZE36jhps5cUH/K9vbfrcx3LtC/6Bk=
+github.com/ez4bk/ezboot/tools/reflect v0.5.0 h1:Uc2J0jFj+JuIToKi2PY6icXIbG96xLQAQJAhcJ+4KsA=
+github.com/ez4bk/ezboot/tools/reflect v0.5.0/go.mod h1:Cm1dP9h7oFUMPDGCgMPeLvEUiBa/CRbcu6Bi96H7Zk0=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.6.0/go.mod h1:sl3t1tCWJFWoRz9R8WJCbQihKKwmorjAbSClcnxKAGw=
 github.com/fsnotify/fsnotify v1.10.1 h1:b0/UzAf9yR5rhf3RPm9gf3ehBPpf0oZKIjtpKrx59Ho=
