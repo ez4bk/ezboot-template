@@ -6,9 +6,7 @@ override BUILD_TIME := $(shell date '+%y%m%d')
 override GIT_REVISION := $(shell git rev-parse --short HEAD)
 override KUBE_CONTEXT := $(shell kubectl config current-context)
 
-# ezboot:with-db:begin
 override DEV_MYSQL_DSN := mysql://user:password@tcp(127.0.0.1:3306)/myna
-# ezboot:with-db:end
 
 ifdef DOCKER_HOST
 override APP_GOPATH := /home/.remote/go
@@ -66,11 +64,9 @@ api: ## Generate api
 	@docker rm $(VOLUME_NAME)
 	@docker volume rm $(VOLUME_NAME)
 
-# ezboot:with-db:begin
 .PHONY: dbgen
 dbgen: ## Generate the models and dao files
 	go run example.ezboot/myna/dbgen -dsn="$(DEV_MYSQL_DSN)"
-# ezboot:with-db:end
 
 .PHONY: wire
 wire:

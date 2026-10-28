@@ -5,10 +5,8 @@ app:
   host: 0.0.0.0
   port: 8899
 
-# ezboot:with-db:begin
   db_migration:
     auto_migrate: true
-# ezboot:with-db:end
 
   lifecycle:
     ready_timeout: 10s
@@ -16,12 +14,10 @@ app:
     close_timeout: 5s
 
   middleware:
-# ezboot:with-db:begin
     mysql:
       default:
         _startup: true
         dsn: "user:password@tcp(127.0.0.1:3306)/myna?charset=utf8mb4&parseTime=true&loc=Local"
-# ezboot:with-db:end
     grpc:
       server:
         default:
