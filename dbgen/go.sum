@@ -9,8 +9,8 @@ github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkp
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
 github.com/ez4bk/ezboot v0.5.1 h1:CDLZ/pJ+CvTK2OSb2BK+GZgwi7J6vglcuAiErtHqK9g=
 github.com/ez4bk/ezboot v0.5.1/go.mod h1:UqUl5GyjJvvvBrXhXCgEoHPLfNelIpzMGS79h+7QY08=
-github.com/ez4bk/ezboot/tools/reflect v0.5.1 h1:lga3HPnvolH5oF0kfiuVga/jkx9XuOow/B2K3h36vaQ=
-github.com/ez4bk/ezboot/tools/reflect v0.5.1/go.mod h1:u2GRJTiTE9voTPr9EOI7gPDF+2UQufWvzT7BZwZEfbg=
+github.com/ez4bk/ezboot/tools/reflect v0.5.2 h1:sjR2gMLjvDUf7mnjPOh/ShTTkI7av6tvJnJpu4SUovQ=
+github.com/ez4bk/ezboot/tools/reflect v0.5.2/go.mod h1:u2GRJTiTE9voTPr9EOI7gPDF+2UQufWvzT7BZwZEfbg=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.6.0/go.mod h1:sl3t1tCWJFWoRz9R8WJCbQihKKwmorjAbSClcnxKAGw=
 github.com/fsnotify/fsnotify v1.10.1 h1:b0/UzAf9yR5rhf3RPm9gf3ehBPpf0oZKIjtpKrx59Ho=

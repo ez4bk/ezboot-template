@@ -14,12 +14,15 @@ import (
 )
 
 var options struct {
-	DSN  string
-	mods []mods.Mod
+	DSN         string
+	withDefault bool
+	mods        []mods.Mod
 }
 
 func init() {
 	flag.StringVar(&options.DSN, "dsn", "", "database connection string")
+	flag.BoolVar(&options.withDefault, "with-default", true,
+		"generate DAO with the with package; false injects *xorm.Engine and *redis.Client")
 	flag.Parse()
 
 	if env := os.Getenv("DBGEN_DSN"); env != "" {
@@ -77,7 +80,10 @@ func generate(r *reflect.Reflection, table string, mod mods.Mod, policy *reflect
 			return err
 		}
 
-		renderOptions = append(renderOptions, reflect.WithDAORender(daoFile))
+		renderOptions = append(renderOptions,
+			reflect.WithDAORender(daoFile),
+			reflect.WithDAORenderOptions(reflect.WithDAOWithDefault(options.withDefault)),
+		)
 	}
 
 	return r.Render(table, modelFile, renderOptions...)

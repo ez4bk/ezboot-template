@@ -4,7 +4,7 @@ go 1.27
 
 require (
 	github.com/ez4bk/ezboot v0.5.1
-	github.com/ez4bk/ezboot/tools/reflect v0.5.1
+	github.com/ez4bk/ezboot/tools/reflect v0.5.2
 	github.com/go-sql-driver/mysql v1.10.1
 )
 
