@@ -7,6 +7,7 @@ import (
 
 	"example.ezboot/myna/config"
 	"example.ezboot/myna/internal/cli"
+	"example.ezboot/myna/internal/dao"
 	"example.ezboot/myna/internal/plugin/example"
 	"example.ezboot/myna/internal/server"
 	"example.ezboot/myna/internal/service"
@@ -23,10 +24,12 @@ func InitApp() (*ezboot.Application, error) {
 		cli.ProviderSet,
 		ezboot.ProviderSet,
 		example.ProviderSet,
-		infra.NewMySQL,
+		infra.DatabasesProviderSet,
+		infra.RedisProviderSet,
 		config.ProviderSet,
 		server.ProviderSet,
 		service.ProviderSet,
 		world.ProviderSet,
+		dao.ProviderSet,
 	))
 }

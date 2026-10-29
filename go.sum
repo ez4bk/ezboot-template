@@ -90,6 +90,8 @@ github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1m
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/ez4bk/ezboot v0.5.0 h1:uHmRMK0aItY8JFU/lP2tT7sKIx94aat+haVq/dg/gN0=
 github.com/ez4bk/ezboot v0.5.0/go.mod h1:s4rLcLrKXXsaS9ZE36jhps5cUH/K9vbfrcx3LtC/6Bk=
+github.com/ez4bk/ezboot v0.5.1 h1:CDLZ/pJ+CvTK2OSb2BK+GZgwi7J6vglcuAiErtHqK9g=
+github.com/ez4bk/ezboot v0.5.1/go.mod h1:UqUl5GyjJvvvBrXhXCgEoHPLfNelIpzMGS79h+7QY08=
 github.com/felixge/httpsnoop v1.1.0 h1:3YtUj32ZZkqZtt3sZZsClsymw/QDuVfpNhoA31zeORc=
 github.com/felixge/httpsnoop v1.1.0/go.mod h1:Zqxgdd+1Rkcz8euOqdr7lqgCRJztwr5hp9vDSi5UZCE=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=

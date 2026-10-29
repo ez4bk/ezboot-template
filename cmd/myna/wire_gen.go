@@ -9,6 +9,7 @@ package main
 import (
 	"example.ezboot/myna/config"
 	"example.ezboot/myna/internal/cli"
+	"example.ezboot/myna/internal/dao"
 	"example.ezboot/myna/internal/plugin/example"
 	"example.ezboot/myna/internal/server"
 	"example.ezboot/myna/internal/service"
@@ -33,8 +34,12 @@ func InitApp() (*ezboot.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	sugaredLogger := ezboot.ProvideLogger()
-	mySQL, err := infra.NewMySQL(v, sugaredLogger)
+	v2 := ezboot.ProvideLogger()
+	databases, err := infra.NewDatabases(v, v2)
+	if err != nil {
+		return nil, err
+	}
+	redis, err := infra.NewRedis(v)
 	if err != nil {
 		return nil, err
 	}
@@ -46,10 +51,18 @@ func InitApp() (*ezboot.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	plugin := example.New(exampleConfig, sugaredLogger)
+	plugin := example.New(exampleConfig, v2)
 	configWorld := &configConfig.World
 	lane := world.NewLane(configWorld)
-	echoService, err := service.NewEchoService(lane)
+	redisClient, err := infra.ProvideDefaultRedis(redis)
+	if err != nil {
+		return nil, err
+	}
+	exampleDAO, err := dao.NewExampleDAO(v2, redisClient)
+	if err != nil {
+		return nil, err
+	}
+	echoService, err := service.NewEchoService(lane, exampleDAO)
 	if err != nil {
 		return nil, err
 	}
@@ -61,9 +74,9 @@ func InitApp() (*ezboot.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	v2 := server.NewPlugins(otel, mySQL, grpcClient, plugin, grpcServer, httpServer)
+	v3 := server.NewPlugins(otel, databases, redis, grpcClient, plugin, grpcServer, httpServer)
 	commands := cli.NewCommands()
-	application, err := NewApp(configConfig, v, state, v2, commands)
+	application, err := NewApp(configConfig, v, state, v3, commands)
 	if err != nil {
 		return nil, err
 	}

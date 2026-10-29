@@ -17,11 +17,12 @@ import (
 // 基础设施放在入口之前，保证服务器排空时依赖还活着。
 func NewPlugins(
 	otel *tracing.OTEL,
-	db *infra.MySQL,
+	db *infra.Databases,
+	redis *infra.Redis,
 	gc *grpcclient.GRPCClient,
 	ex *example.Plugin,
 	gs *grpc.Server,
 	hs *http.Server,
 ) []ezboot.Plugin {
-	return []ezboot.Plugin{otel, db, gc, ex, gs, hs}
+	return []ezboot.Plugin{otel, db, redis, gc, ex, gs, hs}
 }

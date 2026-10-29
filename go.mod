@@ -5,7 +5,7 @@ go 1.27
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.12-20260825204119-511051f7f437.2
 	github.com/casbin/casbin/v3 v3.11.0
-	github.com/ez4bk/ezboot v0.5.0
+	github.com/ez4bk/ezboot v0.5.1
 	github.com/gin-gonic/gin v1.12.0
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/google/wire v0.7.0
