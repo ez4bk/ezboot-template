@@ -54,11 +54,7 @@ func InitApp() (*ezboot.Application, error) {
 	plugin := example.New(exampleConfig, v2)
 	configWorld := &configConfig.World
 	lane := world.NewLane(configWorld)
-	redisClient, err := infra.ProvideDefaultRedis(redis)
-	if err != nil {
-		return nil, err
-	}
-	exampleDAO, err := dao.NewExampleDAO(v2, redisClient)
+	exampleDAO, err := dao.NewExampleDAO(v2)
 	if err != nil {
 		return nil, err
 	}

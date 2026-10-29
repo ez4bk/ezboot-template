@@ -26,14 +26,18 @@ var (
 
 // ExampleDAO manage the example model
 type ExampleDAO struct {
-	log   *ezboot.Logger
-	cache *redis.Client
+	log *ezboot.Logger
 }
 
 // Get retrieves the specified model from database by pk
 func (dao *ExampleDAO) Get(ctx context.Context, id snowflake.ID, withDeleted ...bool) (*models.Example, error) {
 	var model models.Example
-	data, err := dao.cache.Get("myna:db:example:" + utils.ToString(id)).Bytes()
+	var data []byte
+	err := with.DefaultRedis(ctx, func(cache *redis.Client) error {
+		var cacheErr error
+		data, cacheErr = cache.Get("myna:db:example:" + utils.ToString(id)).Bytes()
+		return cacheErr
+	})
 	if err == nil {
 		err = json.Unmarshal(data, &model)
 		if err == nil {
@@ -63,7 +67,9 @@ func (dao *ExampleDAO) Get(ctx context.Context, id snowflake.ID, withDeleted ...
 
 	value, err := json.Marshal(model)
 	if err == nil {
-		err = dao.cache.Set("myna:db:example:"+utils.ToString(id), string(value), time.Duration(604800000000000)).Err()
+		err = with.DefaultRedis(ctx, func(cache *redis.Client) error {
+			return cache.Set("myna:db:example:"+utils.ToString(id), string(value), time.Duration(604800000000000)).Err()
+		})
 		if err != nil {
 			dao.log.Warnw("failed to set redis cache", "error", err)
 		}
@@ -154,7 +160,9 @@ func (dao *ExampleDAO) Update(ctx context.Context, model *models.Example, cols .
 		return elog.Warnw(dao.log, err, "failed to update the example in the database")
 	})
 
-	err = dao.cache.Del("myna:db:example:" + utils.ToString(model.Id)).Err()
+	err = with.DefaultRedis(ctx, func(cache *redis.Client) error {
+		return cache.Del("myna:db:example:" + utils.ToString(model.Id)).Err()
+	})
 	if err != nil {
 		dao.log.Warnw("failed to delete redis cache", "error", err)
 	}
@@ -178,7 +186,9 @@ func (dao *ExampleDAO) Delete(ctx context.Context, id snowflake.ID) (bool, error
 		return elog.Warnw(dao.log, err, "failed to soft delete the example in the database")
 	})
 
-	err = dao.cache.Del("myna:db:example:" + utils.ToString(id)).Err()
+	err = with.DefaultRedis(ctx, func(cache *redis.Client) error {
+		return cache.Del("myna:db:example:" + utils.ToString(id)).Err()
+	})
 	if err != nil {
 		dao.log.Warnw("failed to delete redis cache", "error", err)
 	}
@@ -196,7 +206,9 @@ func (dao *ExampleDAO) Destroy(ctx context.Context, model *models.Example) (bool
 		return elog.Warnw(dao.log, err, "failed to hard delete the example in the database")
 	})
 
-	err = dao.cache.Del("myna:db:example:" + utils.ToString(model.Id)).Err()
+	err = with.DefaultRedis(ctx, func(cache *redis.Client) error {
+		return cache.Del("myna:db:example:" + utils.ToString(model.Id)).Err()
+	})
 	if err != nil {
 		dao.log.Warnw("failed to delete redis cache", "error", err)
 	}
@@ -204,9 +216,8 @@ func (dao *ExampleDAO) Destroy(ctx context.Context, model *models.Example) (bool
 	return deleted, err
 }
 
-func NewExampleDAO(log *ezboot.Logger, cache *redis.Client) (*ExampleDAO, error) {
+func NewExampleDAO(log *ezboot.Logger) (*ExampleDAO, error) {
 	return &ExampleDAO{
-		cache: cache,
-		log:   log.With("component", "dao", "dao", "example"),
+		log: log.With("component", "dao", "dao", "example"),
 	}, nil
 }
